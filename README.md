@@ -1,82 +1,70 @@
-\# Projeto de Testes E2E com Playwright
+# 📌 Colinha QA — Playwright, Cypress e Git
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+## 📋 Modelo de Ficha / Caso de Teste
+
+```ts
+/**
+ * FICHA ?
+ * CASO DE TESTE ?
+ * Problema Detectado:
+ * ?
+ * Ambiente: 10.10.11.65
+ * BANCO DE DADOS: ?
+ * Versão: ?
+ *
+ * RESULTADO ESPERADO:
+ * ?
+ * 
+ * RESULTADO OBTIDO:
+ * ?
+ */
 
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Este repositório contém um projeto de testes automatizados End-to-End (E2E) utilizando Playwright e TypeScript, com foco na validação de fluxos críticos da aplicação, como login e funcionalidades principais.
+🧪 Template Playwright
+import { selectors,test,expect } from '@playwright/test';
 
+test('CASO DE TESTE 1', async ({ page }) => {
+  await selectors.setTestIdAttribute("id");
+  await page.goto('http://localhost:9999/Login');
 
+  // await page.pause(); // ⬅️ PAUSA NO LUGAR CERTO
+});
 
-\## 🧪 Objetivo do Projeto
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-O objetivo deste projeto é demonstrar conhecimentos em automação de testes E2E, boas práticas de QA e uso do Playwright para validação de sistemas web.
+🧪 Template Playwright
+git status
+git add .
+git commit -m "mensagem"
+git push
+👉 SUBIR = sua máquina → GitHub
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+⬇️ Git — Descer / Atualizar código
 
-\## 🚀 Tecnologias Utilizadas
+Projeto já existe:
+git pull
+Projeto do zero:
+git clone https://github.com/Diegosnow1/vendas-e2e-play.git
 
-\- Node.js
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-\- Playwright
+🧪 Playwright — Comandos principais
+npx playwright test
+npx playwright test tests/Formatto.spec.ts
+npx playwright test --debug
+npx playwright show-report
+npx playwright codegen http://URL_DO_SISTEMA
+npx playwright codegen --test-id-attribute id http://URL_DO_SISTEMA
 
-\- TypeScript
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-\- npm
-
-
-
-\## 📂 Estrutura do Projeto
-
-\- tests/ → Contém os testes automatizados E2E
-
-\- playwright.config.ts → Configuração do Playwright
-
-\- package.json → Dependências e scripts do projeto
-
-
-
-\## ▶️ Como Executar o Projeto
-
-
-
-\### Pré-requisitos
-
-\- Node.js instalado
-
-\- npm instalado
-
-
-
-\### Passos para execução
-
-1\. Instalar as dependências:
-
-&nbsp;  npm install
-
-
-
-2\. Executar os testes:
-
-&nbsp;  npx playwright test
-
-
-
-3\. Executar os testes com interface gráfica:
-
-&nbsp;  npx playwright test --ui
-
-
-
-\## 📊 Relatórios
-
-Após a execução dos testes, o Playwright gera relatórios automáticos que auxiliam na análise dos resultados.
-
-
-
-\## 👨‍💻 Autor
-
-Diego José da Silva  
-
-QA | Testes Manuais e Automação E2E
-
-
-
+❄️ Cypress — Comandos principais
+npx cypress open
+npx cypress run
+npx cypress run --spec "cypress/e2e/login-vendas.cy.js"
