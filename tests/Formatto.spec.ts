@@ -6,7 +6,7 @@
  * Problema Detectado:
  * O Vendas não está solicitando senha para pendência de LOTE(Liberar pendencia de venda sem reserva de lote.) quando é reservado uma quantidade parcial do pedido.
  * Ambiente: 10.10.11.65
- * BANCO DE DADOS: Fermacom_Diego
+ * BANCO DE DADOS: Formatto_Diego
  * Versão: 476948_marcio_lote_Formatto
  *
  * RESULTADO ESPERADO:

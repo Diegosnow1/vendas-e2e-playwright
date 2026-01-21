@@ -57,6 +57,7 @@ git clone https://github.com/Diegosnow1/vendas-e2e-play.git
 🧪 Playwright — Comandos principais
 npx playwright test
 npx playwright test tests/Formatto.spec.ts
+npx playwright test fermacom.spec.ts --project=chromium --debug   //com navegador especifico.
 npx playwright test --debug
 npx playwright show-report
 npx playwright codegen http://URL_DO_SISTEMA

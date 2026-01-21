@@ -20,104 +20,68 @@
    FUNÇÕES AUXILIARES
    ========================= */
 
-  import { selectors,test,expect } from '@playwright/test';
 
+import { selectors,test,expect } from '@playwright/test';
 
-
-async function fazerLogin(page,usuario) {
-  await page.goto('http://localhost:9999/Login');
-  await page.locator('#Login_Usuario').click();
-  await page.locator('#Login_Usuario').fill(usuario);
-  await page.locator('#Login_Senha').click();
-  await page.locator('#Login_Senha').fill('m');
-  await page.getByRole('button', { name: 'Entrar' }).click();
-}
-
-async function abrirvenda(page) {
-  await page.locator('#abrirMenuPrincipal').click();
-  await page.getByRole('link', { name: 'Venda', exact: true }).click();
-  await page.locator('#senha-vendedor-input').click();
-  await page.locator('#senha-vendedor-input').fill('1');
-  await page.locator('#senha-vendedor-input').press('Enter');
-  await page.getByRole('button', { name: 'Entrar' }).click();
-}
-  
-async function pesquisarcliente(page,cliente) {
-  await page.locator('#PesquisaCliente_CpfCnpj').click();
-  await page.locator('#PesquisaCliente_CpfCnpj').fill(cliente);
-  await page.getByRole('button', { name: 'Pesquisar' }).click();
-  await page.getByText('Thiago Jose Ferreira').click();
-// Aguarda página carregar
-  await page.waitForLoadState('networkidle');
-// Aguarda botão Salvar
-const botaoSalvar = page.locator('#AbasPesquisaClienteContainer_BotaoSalvar');
-  await botaoSalvar.waitFor({ state: 'visible' });
-// Clica
-  await botaoSalvar.click();
-}
-
-async function validarErroTelefone(page) {
-// Valida erro
-  await expect(page.locator('body')).toContainText('O campo "Telefone" é inválido.');
-  await expect(page.locator('body')).toContainText('O campo "Celular" é inválido.');
-}
-
-  test('CASO DE TESTE 1', async ({ page }) => {
-  await fazerLogin(page,'VENDAS01');
-  await abrirvenda(page);
-  await pesquisarcliente(page,'039.746.201-84_');
-  await validarErroTelefone(page);
-  await page.pause(); // ⬅️ PAUSA NO LUGAR CERTO
-}); 
-   
-
-
-/**
-  * FICHA 476948
-
- /* async function fazerLogin2(page,usuario) {
+/* test('CASO DE TESTE 1', async ({ page }) => {
+  await selectors.setTestIdAttribute("id");
   await page.goto('http://10.10.11.98:9999/Login');
-  await page.locator('#Login_Usuario').click();
-  await page.locator('#Login_Usuario').fill(usuario);
-  await page.locator('#Login_Senha').click();
-  await page.locator('#Login_Senha').fill('m');
-  await page.getByRole('button', { name: 'Entrar' }).click();
-}
+  await page.getByTestId('Login_Usuario').click();
+  await page.getByTestId('Login_Usuario').fill('vendas01');
+  await page.getByTestId('Login_Usuario').press('Tab');
+  await page.getByTestId('Login_Senha').fill('m');
+  await page.getByTestId('Login_BotaoEntrar').click();
+  await page.getByTestId('abrirMenuPrincipal').click({force: true});
+  await page.getByTestId('MenuPrincipal_OrcamentoVenda').click();
+  await page.getByTestId('senha-vendedor-input').fill('1');
+  await page.getByTestId('senha-vendedor-input').press('Enter');
+  await page.getByTestId('iniciar-orcamento-botao-entrar').click();
+  await page.getByTestId('PesquisaCliente_CampoNome').click();
+  await page.getByTestId('PesquisaCliente_CampoNome').fill('thiago jose ferreira');
+  await page.getByTestId('PesquisaCliente_BarraFerramenta_BotaoPesquisar').click();
+  await page.getByTestId('PesquisarCliente_Coluna_Nome_0').click();
+  await page.getByRole('textbox', { name: '(99) 99999-' }).first().click();
+  await page.getByRole('textbox', { name: '(99) 99999-' }).first().fill('(33) 9987-20022');
+  await page.getByRole('textbox', { name: '(99) 99999-' }).first().press('Tab');
+  await page.getByRole('textbox', { name: '(99) 99999-' }).nth(1).fill('(33) 9987-20022');
+  await page.getByTestId('AbasPesquisaClienteContainer_BotaoSalvar').click();
+  await expect(page.getByTestId('toast-container')).toContainText('×Registro atualizado com sucesso!');
+//Neste ponto o teste valida que a mensagem de sucesso foi apresentada corretamente, validando que quando -
+//usuario manipula os dois campos o sistema valida ambos e salva corretamente quando ambos estão corretos.
+//Fim. 
 
-async function abrirvenda2(page) {
-  await page.locator('#abrirMenuPrincipal').click();
-  await page.getByRole('link', { name: 'Venda', exact: true }).click();
-  await page.locator('#senha-vendedor-input').click();
-  await page.locator('#senha-vendedor-input').fill('1');
-  await page.locator('#senha-vendedor-input').press('Enter');
-  await page.getByRole('button', { name: 'Entrar' }).click();
-}
-  
-async function pesquisarcliente2(page,cliente) {
-  await page.locator('#PesquisaCliente_CpfCnpj').click();
-  await page.locator('#PesquisaCliente_CpfCnpj').fill(cliente);
-  await page.getByRole('button', { name: 'Pesquisar' }).click();
-  await page.getByText('Thiago Jose Ferreira').click();
-// Aguarda página carregar
-  await page.waitForLoadState('networkidle');
-// Aguarda botão Salvar
-const botaoSalvar = page.locator('#AbasPesquisaClienteContainer_BotaoSalvar');
-  await botaoSalvar.waitFor({ state: 'visible' });
-// Clica
-  await botaoSalvar.click();
-}
+});*/
 
-async function validarErroTelefone2(page) {
-// Valida erro
-  await expect(page.locator('body')).toContainText('O campo "Telefone" é inválido.');
-  await expect(page.locator('body')).toContainText('O campo "Celular" é inválido.');
-}
+test('CASO DE TESTE 2', async ({ page }) => {
+  await selectors.setTestIdAttribute("id");
+  await page.goto('http://10.10.11.98:9999/Login');
+  await page.getByTestId('Login_Usuario').click();
+  await page.getByTestId('Login_Usuario').fill('vendas01');
+  await page.getByTestId('Login_Usuario').press('Tab');
+  await page.getByTestId('Login_Senha').fill('m');
+  await page.getByTestId('Login_BotaoEntrar').click();
+  await page.getByTestId('abrirMenuPrincipal').click({force: true});
+  await page.getByTestId('MenuPrincipal_OrcamentoVenda').click();
+  await page.getByTestId('senha-vendedor-input').fill('1');
+  await page.getByTestId('senha-vendedor-input').press('Enter');
+  await page.getByTestId('iniciar-orcamento-botao-entrar').click();
+  await page.getByTestId('PesquisaCliente_CampoNome').click();
+  await page.getByTestId('PesquisaCliente_CampoNome').fill('thiago jose ferreira');
+  await page.getByTestId('PesquisaCliente_BarraFerramenta_BotaoPesquisar').click();
+  await page.getByTestId('PesquisarCliente_Coluna_Nome_0').click();
+  await page.getByRole('textbox', { name: '(99) 99999-' }).first().click();
+  await page.getByRole('textbox', { name: '(99) 99999-' }).first().click();
+  await page.getByRole('textbox', { name: '(99) 99999-' }).first().click();
+  await page.getByRole('textbox', { name: '(99) 99999-' }).first().press('ControlOrMeta+a');
+  await page.getByRole('textbox', { name: '(99) 99999-' }).first().fill('');
+  await page.getByRole('textbox', { name: '(99) 99999-' }).first().press('Tab');
+  await page.getByRole('textbox', { name: '(99) 99999-' }).nth(1).fill('');
+  await page.getByRole('textbox', { name: '(99) 99999-' }).nth(1).press('Tab');
+  await page.getByTestId('AbasPesquisaClienteContainer_BotaoSalvar').click();
+  await expect(page.getByTestId('toast-container')).toContainText('×Registro atualizado com sucesso!');
+//Neste ponto o teste valida que a mensagem de sucesso foi apresentada corretamente, validando que quando -
+//usuario limpa os dois campos o sistema valida ambos e salva corretamente, pois ambos são campos opcionais quando não tem parametro configurado.
+//Fim.
+await page.pause(); // ⬅️ PAUSA NO LUGAR CERTO
 
-  test('CASO DE TESTE 2', async ({ page }) => {
-  await fazerLogin2(page,'VENDAS01');
-  await abrirvenda2(page);
-  await pesquisarcliente2(page,'039.746.201-84_');
-  await validarErroTelefone2(page);
-  await page.pause(); // ⬅️ PAUSA NO LUGAR CERTO
 });
-    */
