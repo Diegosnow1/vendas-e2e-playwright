@@ -11,9 +11,13 @@
  * CASO DE TESTE 1º:
  -Validar campos (telefone e celular) com dados vazios.
  * CASO DE TESTE 2º:
- -Validar campos (telefone e celular) com dados válidos (3333412207).
+ -Validar campos (telefone e celular) com dados válidos 
  * CASO DE TESTE 3º:
- -Validar campos (telefone e celular) com dados inválidos (33334122).
+ -Validar campos (telefone e celular) com dados inválidos 
+ * CASO DE TESTE 4º:
+ -Validar sobrescrita com CTRL+A no campo telefone e celular.
+ * CASO DE TESTE 5º:
+ -Finalizar o pedido como orcamento confirmado
  
  * RESULTADO ESPERADO:
 
@@ -23,7 +27,10 @@
  - Usuario conseguira salvar os dados do cliente ao clicar no botão salvar, mensagem na cor verde, relatando o  sucesso sera exibida.
   * CASO DE TESTE 3º
  - Usuario não conseguira salvar os dados do cliente ao clicar no botão salvar, uma mensagem em vermelho com os erros de validação sera exibida.
-
+  * CASO DE TESTE 4
+ -Utilizar o recurso de  selecionar tudo e logo conseguir  subscrever em cima do texto selecioando.
+  * CASO DE TESTE 5º:
+ -salvar oçamento sem erros como confirmado.
  
 /* =========================
    COMANDOS SQL  AUXILIARES
@@ -132,7 +139,7 @@ test('CASO DE TESTE ', async ({ page }) => {
 
 
 
-  //Finalizar o pedido como orcamento confirmado
+  //caso de teste 5 -Finalizar o pedido como orcamento confirmado
   await page.getByTestId('AbasPesquisaClienteContainer_Breadcrumb_BtnLimpar').click();
   await page.getByTestId('PesquisaCliente_CampoNome').click();
   await page.getByTestId('PesquisaCliente_CampoNome').fill('thiago jose ferreira');
