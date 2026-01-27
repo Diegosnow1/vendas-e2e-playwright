@@ -43,29 +43,31 @@ UPDATE ITEMFILEST SET quant = '1000.00' WHERE codpro = '00012'
    ========================= */
 
 
-import { selectors,test,expect } from '@playwright/test';
+import { selectors, test, expect } from '@playwright/test';
 
-test('CASO DE TESTE ', async ({ page }) => {
-
- 
-  //LOGIN NO SISTEMA
+test.beforeEach(async ({ page }) => {
   await selectors.setTestIdAttribute("id");
+
   await page.goto('http://10.10.11.137:9999/Login');
-  await page.getByTestId('Login_Usuario').click();
+
   await page.getByTestId('Login_Usuario').fill('vendas01');
   await page.getByTestId('Login_Usuario').press('Tab');
   await page.getByTestId('Login_Senha').fill('m');
   await page.getByTestId('Login_Senha').press('Enter');
-  await page.getByTestId('abrirMenuPrincipal').click({force: true});
+
+  await page.getByTestId('abrirMenuPrincipal').click({ force: true });
   await page.getByTestId('MenuPrincipal_OrcamentoVenda').click();
-  await page.getByTestId('senha-vendedor-input').click();
+
   await page.getByTestId('senha-vendedor-input').fill('1');
   await page.getByTestId('senha-vendedor-input').press('Enter');
+
   await page.getByTestId('iniciar-orcamento-botao-entrar').click();
+});
 
+test('CT01 - telefone e celular vazios', async ({ page }) => {
+   
+  //LOGIN NO SISTEMA
 
- 
-  //caso de teste 1 - telefone e celular vazios
   await page.getByTestId('PesquisaCliente_CampoNome').click();
   await page.getByTestId('PesquisaCliente_CampoNome').fill('thiago jose ferreira');
   await page.getByTestId('PesquisaCliente_BarraFerramenta_BotaoPesquisar').click();
@@ -79,12 +81,13 @@ test('CASO DE TESTE ', async ({ page }) => {
   await page.getByTestId('AbasPesquisaClienteContainer_BotaoSalvar').click();
   await page.getByTestId('logotipoClienteIndexOrcamento').click();
   await expect(page.getByTestId('toast-container')).toContainText('×Registro atualizado com sucesso!');
-  await page.pause(); // ⬅️ PAUSA NO LUGAR CERTO
+  //await page.pause(); // ⬅️ PAUSA NO LUGAR CERTO
+  });
 
 
-  //caso de teste 2 - telefone e celular válido
-  await page.getByTestId('AbasPesquisaClienteContainer_Breadcrumb_BtnLimpar').click();
-  await page.getByTestId('PesquisarClienteContainer_Breadcrumb_BtnLimpar').click();
+  test('CT02 - telefone e celular válidos', async ({ page }) => {
+  //await page.getByTestId('AbasPesquisaClienteContainer_Breadcrumb_BtnLimpar').click();
+  //await page.getByTestId('PesquisarClienteContainer_Breadcrumb_BtnLimpar').click();
   await page.getByTestId('PesquisaCliente_CampoNome').click();
   await page.getByTestId('PesquisaCliente_CampoNome').fill('thiago jose ferreira');
   await page.getByTestId('PesquisaCliente_BarraFerramenta_BotaoPesquisar').click();
@@ -95,12 +98,14 @@ test('CASO DE TESTE ', async ({ page }) => {
   await page.getByRole('textbox', { name: '(99) 99999-' }).nth(1).fill('(33) 9987-20036');
   await page.getByTestId('AbasPesquisaClienteContainer_BotaoSalvar').click();
   await expect(page.getByTestId('toast-container')).toContainText('×Registro atualizado com sucesso!');
-  await page.pause(); // ⬅️ PAUSA NO LUGAR CERTO
+  //await page.pause(); // ⬅️ PAUSA NO LUGAR CERTO
+  });
+ 
   
 
-   //caso de teste 3 - telefone e celular invalido
-  await page.getByTestId('AbasPesquisaClienteContainer_Breadcrumb_BtnLimpar').click();
-  await page.getByTestId('PesquisarClienteContainer_Breadcrumb_BtnLimpar').click();
+  test('CT03 - telefone e celular inválidos', async ({ page }) => {
+  //await page.getByTestId('AbasPesquisaClienteContainer_Breadcrumb_BtnLimpar').click();
+  //await page.getByTestId('PesquisarClienteContainer_Breadcrumb_BtnLimpar').click();
   await page.getByTestId('PesquisaCliente_CampoNome').click();
   await page.getByTestId('PesquisaCliente_CampoNome').fill('thiago jose ferreira');
   await page.getByTestId('PesquisaCliente_BarraFerramenta_BotaoPesquisar').click();
@@ -112,14 +117,15 @@ test('CASO DE TESTE ', async ({ page }) => {
   await page.getByRole('textbox', { name: '(99) 99999-' }).nth(1).fill('(33) 9987-20___');
   await page.getByTestId('AbasPesquisaClienteContainer_BotaoSalvar').click();
   await expect(page.getByTestId('toast-container')).toContainText('O campo "Telefone" é inválido.O campo "Celular" é inválido.');
-  await page.pause(); // ⬅️ PAUSA NO LUGAR CERTO
+  //await page.pause(); // ⬅️ PAUSA NO LUGAR CERTO
+ });
+   
 
 
 
-
-   //caso de teste 4 -  sobrescrita com CTRL+A no campo telefone e celular.
-  await page.getByTestId('AbasPesquisaClienteContainer_Breadcrumb_BtnLimpar').click();
-  await page.getByTestId('PesquisaCliente_CampoNome').click();
+ test('CT04 - sobrescrita com CTRL+A', async ({ page }) => {
+  //await page.getByTestId('AbasPesquisaClienteContainer_Breadcrumb_BtnLimpar').click();
+  //await page.getByTestId('PesquisaCliente_CampoNome').click();
   await page.getByTestId('PesquisaCliente_CampoNome').fill('Thiago Jose Ferreira');
   await page.getByTestId('PesquisaCliente_BarraFerramenta_BotaoPesquisar').click();
   await page.getByTestId('PesquisarCliente_Coluna_Nome_0').click();
@@ -132,15 +138,12 @@ test('CASO DE TESTE ', async ({ page }) => {
   await page.getByTestId('AbasPesquisaClienteContainer_BotaoSalvar').click();
   await expect(page.getByRole('textbox', { name: '(99) 99999-' }).first()).toHaveValue('(11) 1111-1111');
   await expect(page.getByRole('textbox', { name: '(99) 99999-' }).nth(1)).toHaveValue('(22) 22222-2222');
-  await page.pause(); // ⬅️ PAUSA NO LUGAR CERTO
- 
+  //await page.pause(); // ⬅️ PAUSA NO LUGAR CERTO
+ });
 
 
-
-
-
-  //caso de teste 5 -Finalizar o pedido como orcamento confirmado
-  await page.getByTestId('AbasPesquisaClienteContainer_Breadcrumb_BtnLimpar').click();
+ test('CT05 - finalizar orçamento', async ({ page }) => {
+  //await page.getByTestId('AbasPesquisaClienteContainer_Breadcrumb_BtnLimpar').click();
   await page.getByTestId('PesquisaCliente_CampoNome').click();
   await page.getByTestId('PesquisaCliente_CampoNome').fill('thiago jose ferreira');
   await page.locator('form').click();
@@ -162,9 +165,16 @@ test('CASO DE TESTE ', async ({ page }) => {
   await page.getByTestId('FinalizarOrcamento_botaoEncerrarOrcamento').click();
   await page.waitForTimeout(3000);
   await expect(page.getByTestId('OrcamentoConcluido_Situacao')).toContainText('Situação: Aguardando faturamento');
+  //wait page.pause(); // ⬅️ PAUSA NO LUGAR CERTO
+ });
 
-  await page.pause(); // ⬅️ PAUSA NO LUGAR CERTO
-});
+
+
+
+
+  
+
+
 
   
   
