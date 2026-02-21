@@ -18,6 +18,8 @@
  -Validar sobrescrita com CTRL+A no campo telefone e celular.
  * CASO DE TESTE 5º:
  -Finalizar o pedido como orcamento confirmado
+  * CASO DE TESTE 6º:
+ -Finalizar o pedido como orcamento confirmado com o campo telefone inválido,com 10 digitos.
  
  * RESULTADO ESPERADO:
 
@@ -203,7 +205,12 @@ test.setTimeout(120000);
   await page.getByTestId('PesquisaCliente_BarraFerramenta_BotaoPesquisar').click();
   await expect(page.getByTestId('PesquisarCliente_Coluna_Nome_0')).toBeVisible({ timeout: 10000 });
   await page.getByTestId('PesquisarCliente_Coluna_Nome_0').click();
-  await expect(page.getByTestId('AbasPesquisaClienteContainer_BotaoSalvar')).toBeVisible();
+  // aguarda o loader de cliente desaparecer antes de interagir com o botão Salvar
+  const loaderCliente = page.getByText('Carregando dados do cliente. Aguarde...');
+  if (await loaderCliente.isVisible()) {
+    await loaderCliente.waitFor({ state: 'detached', timeout: 15000 });
+  }
+  await expect(page.getByTestId('AbasPesquisaClienteContainer_BotaoSalvar')).toBeVisible({ timeout: 10000 });
   await page.getByTestId('AbasPesquisaClienteContainer_BotaoSalvar').click();
   await page.getByTestId('orcamento_menu_itens').click({ force: true });
   await expect(page.getByTestId('PesquisaProdutos_EstoqueDisponivelFilialCorrente')).toBeVisible({ timeout: 60000 });
